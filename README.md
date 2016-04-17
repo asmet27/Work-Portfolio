@@ -1,2 +1,5 @@
 # hello-world
-Just another repository
+
+Hi everyone! 
+
+My name is Aaron, and my dreams can win oscars!
