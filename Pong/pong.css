@@ -1,0 +1,4 @@
+/* Background - Shorthand property */
+body { 
+	background: url(images/soccer-backgrounds.png) fixed; 
+}

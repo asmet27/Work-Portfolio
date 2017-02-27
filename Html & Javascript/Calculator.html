@@ -1,0 +1,68 @@
+<!--Name: Aaron Smet
+//Date: May 26, 2015
+//Assignment 7
+//CIS 115 MW 8:30-9:50-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Local Storage</title>
+    <meta charset="utf-8">
+    <script src="Calculator.js"></script>
+    <h1>Assignment 7</h1>
+    <h2>CIS 115 Spring 2015</h2>
+    <h3>Calculator</h3>
+</head>
+
+<body>
+    <p>http://www.javascriptkit.com/script/cut18.shtml</p>
+    <form name="Calc">
+        <table border=4>
+            <tr>
+                <td>
+                    <input type="text" name="Input" size="16">
+                    <br>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="button" name="one" value="  1  " OnClick="Calc.Input.value += '1'">
+                    <input type="button" name="two" value="  2  " OnCLick="Calc.Input.value += '2'">
+                    <input type="button" name="three" value="  3  " OnClick="Calc.Input.value += '3'">
+                    <input type="button" name="plus" value="  +  " OnClick="Calc.Input.value += ' + '">
+                    <br>
+                    <input type="button" name="four" value="  4  " OnClick="Calc.Input.value += '4'">
+                    <input type="button" name="five" value="  5  " OnCLick="Calc.Input.value += '5'">
+                    <input type="button" name="six" value="  6  " OnClick="Calc.Input.value += '6'">
+                    <input type="button" name="minus" value="  -  " OnClick="Calc.Input.value += ' - '">
+                    <br>
+                    <input type="button" name="seven" value="  7  " OnClick="Calc.Input.value += '7'">
+                    <input type="button" name="eight" value="  8  " OnCLick="Calc.Input.value += '8'">
+                    <input type="button" name="nine" value="  9  " OnClick="Calc.Input.value += '9'">
+                    <input type="button" name="times" value="  x  " OnClick="Calc.Input.value += ' * '">
+                    <br>
+                    <input type="button" name="clear" value="  c  " OnClick="Calc.Input.value = ''">
+                    <input type="button" name="zero" value="  0  " OnClick="Calc.Input.value += '0'">
+                    <input type="button" name="DoIt" value="  =  " OnClick="Calc.Input.value = eval(Calc.Input.value)">
+                    <input type="button" name="div" value="  /  " OnClick="Calc.Input.value += ' / '">
+                    <br>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <br>
+    <input type="text" id="inputOneValue" placeholder="Enter Valid Number">
+    <select id="choose">
+        <option value="0">+</option>
+        <option value="1">-</option>
+        <option value="2">/</option>
+        <option value="3">*</option>
+    </select>
+    <input type="text" id="inputTwoValue" placeholder="Enter Valid Number">
+    <br>
+    <button type="button" id="calcButton">Caclulate</button>
+    <button type="button" id="clearButton">Clear</button>
+    <p> = <span id="storageDiv"></span></p>
+</body>
+
+</html>

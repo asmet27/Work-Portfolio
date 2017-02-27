@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Clicky Moving Circles!</title>
+    <meta charset="utf-8">
+    <h1 style="color:black">Instructions:</h1>
+    <h2 style="color:black">Pop the Eyeballs!</h2>
+    <style>
+    canvas {
+        border: 1px solid black;
+    }
+    </style>
+    <script>
+    // Leading underscore denotes global variable.
+    var canvas;
+    var context;
+    var circles;
+
+    function Circle(x, y, radius) {
+        this.x = x;
+        this.y = y;
+        this.dx = Math.random() * 10 - 5;
+        this.dy = Math.random() * 10 - 5;
+        this.radius = radius;
+        this.radiusSq = radius * radius;
+        this.visible = true;
+
+        this.getText = function() {
+            return ("(" + this.x + ", " + this.y + ") " +
+                this.radius + " " + this.visible);
+        }
+
+        this.drawToContext = function(context) {
+            if (this.visible) {
+                this.x += this.dx;
+                this.y += this.dy;
+                if (this.x < this.radius || this.x + this.radius > canvas.width) {
+                    this.dx = -this.dx;
+                }
+                if (this.y < this.radius || this.y + this.radius > canvas.height) {
+                    this.dy = -this.dy;
+                }
+
+                context.beginPath();
+                context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false)
+                context.closePath();
+                context.strokeStyle = "black";
+                context.lineWidth = 5;
+                context.stroke();
+
+                var gradient = context.createRadialGradient(this.x, this.y, 0,
+                    this.x, this.y,
+                    this.radius);
+                gradient.addColorStop(0.0, "rgba(0, 0, 0, 1.0)");
+                gradient.addColorStop(0.4, "rgba(0, 255, 0, 1.0)");
+                gradient.addColorStop(0.6, "rgba(255, 255, 0, 0.75)");
+                gradient.addColorStop(1.0, "rgba(100, 100, 100, 0.5)");
+
+                context.fillStyle = gradient;
+                context.fill();
+            }
+        }
+
+        this.collide = function(x, y) {
+            // If not visible, can't possibly have a hit?
+            // WHy?  Because I said so.
+            if (!this.visible) {
+                return false;
+            }
+
+            var dx = this.x - x;
+            var dy = this.y - y;
+            var distanceSq = dx * dx + dy * dy;
+            if (distanceSq <= this.radiusSq) {
+                this.visible = false;
+
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+
+    window.onload = function() {
+        circles = new Array();
+
+        canvas = document.getElementById("myCanvas");
+        canvas.onmousedown = handleMouseDown;
+
+        context = canvas.getContext("2d");
+        for (var i = 1; i < 50; i++) {
+            // Radius is [25, 75)
+            var r = Math.random() * 50 + 25;
+            var dr = 2 * r;
+
+            // Include padding so that circles are never
+            // partially off the canvas.
+            var x = Math.random() * (canvas.width - dr) + r;
+            var y = Math.random() * (canvas.height - dr) + r;
+
+            var circle = new Circle(x, y, r);
+            circles.push(circle);
+        }
+
+        setInterval(redraw, 50);
+    }
+
+    function handleMouseDown(event) {
+        var x = event.clientX - canvas.offsetLeft;
+        var y = event.clientY - canvas.offsetTop;
+
+        // Loop through backwards so that we can remove the most-recently-drawn
+        // circle.
+        for (var i = circles.length - 1; i >= 0; --i) {
+            var circle = circles[i];
+            var hit = circle.collide(x, y);
+            if (hit) {
+                break;
+            }
+        }
+
+        redraw();
+    }
+
+    function redraw() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        for (var i = 0; i < circles.length; ++i) {
+            var circle = circles[i];
+            circle.drawToContext(context);
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <canvas width="800" height="600" id="myCanvas"></canvas>
+</body>
+
+</html>

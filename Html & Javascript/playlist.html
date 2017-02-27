@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Playlist</title>
+    <meta charset="utf-8">
+    <script>
+        // Song class
+        function Song(songTitle, songArtist, minutes, seconds) {
+            this.title   = songTitle;
+            this.artist  = songArtist;
+            this.minutes = minutes;
+            this.seconds = seconds;
+            
+            this.getText = function() { 
+                var text = "song: " + this.title;
+                text += " artist: " + this.artist;
+                text += " duration: (" + this.minutes + ":";
+                if (this.seconds < 10) {
+                    text += "0"
+                }
+                text += this.seconds + ")"; 
+                return text;
+            }
+        }
+
+        // Array to hold Song objects.
+        var songList = new Array();
+
+        function init() {
+            var addButton = document.getElementById("addButton");
+            addButton.onclick = handleAddButtonClick;
+
+            var clearButton = document.getElementById("clearButton");
+            clearButton.onclick = handleClearButtonClick;
+
+            var suggestButton = document.getElementById("suggestButton");
+            suggestButton.onclick = handleSuggestButtonClick;
+        }
+        window.onload = init;
+
+        function handleAddButtonClick() {
+            var titleTextInput = document.getElementById("titleTextInput");
+            var title = titleTextInput.value;
+
+            var artistTextInput = document.getElementById("artistTextInput");
+            var artist = artistTextInput.value;
+
+            var minutesTextInput = document.getElementById("minutesTextInput");
+            var minutes = minutesTextInput.value;
+
+            var secondsTextInput = document.getElementById("secondsTextInput");
+            var seconds = secondsTextInput.value;
+            
+            // Only create the Song and add it to the song list if
+            // the title, artist, minutes, and seconds are not blank.
+            if (title == "") {
+                alert("Please enter a title!");
+            }
+            else if (artist == "") {
+                alert("Please enter an artist!");
+            }
+            else if (minutes == "") {
+                alert("Please enter a number of minutes!");
+            }
+            else if (seconds == "") {
+                alert("Please enter a number of seconds!");
+            }
+            else {
+                var song = new Song(title, artist, minutes, seconds);
+                songList.push(song);
+                
+                displaySongList();
+
+                // Clear text fields.
+                titleTextInput.value = "";
+                artistTextInput.value = "";
+                minutesTextInput.value = "";
+                secondsTextInput.value = "";
+            }            
+        }
+
+        function handleClearButtonClick() {
+            songList.splice(0, songList.length);
+
+            displaySongList();
+        }
+
+        function handleSuggestButtonClick() {
+            var song = suggestSong();
+            alert(song.getText());
+        }
+        
+        function displaySongList() {
+            // Start with empty text and add each song in the 
+            // song list.
+            var songListText = "";
+            for (var i = 0; i < songList.length; i += 1) {
+                var song = songList[i];
+                songListText += song.getText() + "<br />";
+            }
+            
+            var songListDiv  = document.getElementById("songListDiv");
+            songListDiv.innerHTML = songListText;
+        }
+
+        function suggestSong() {
+            var index = Math.floor(Math.random()*songList.length);
+            var suggestedSong = songList[index];
+            return suggestedSong;
+        }
+        
+    </script>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>Title</td>
+            <td><input type="text" id="titleTextInput" length="20" /></td>
+        </tr>
+        <tr>
+            <td>Artist</td>
+            <td><input type="text" id="artistTextInput" length="20" /></td>
+        </tr>
+        <tr>
+            <td>Minutes</td>
+            <td><input type="text" id="minutesTextInput" length="20" /></td>
+        </tr>
+        <tr>
+            <td>Seconds</td>
+            <td><input type="text" id="secondsTextInput" length="20" /></td>
+        </tr>
+    </table>
+    
+    <input type="button" id="addButton" value="Add" />
+    <input type="button" id="suggestButton" value="Suggest" />
+    <input type="button" id="clearButton" value="Clear" />
+    
+    <hr />
+    
+    <div id="songListDiv"> </div>
+    
+</body>
+</html>
