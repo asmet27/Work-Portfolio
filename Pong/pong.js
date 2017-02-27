@@ -62,7 +62,7 @@ function paintCanvas() {
 	ctx.fillStyle = "green";
 	ctx.fillRect(0, 0, W, H);
 
-	//draw middle line
+/*	//draw middle line
 	ctx.beginPath();
 	ctx.moveTo(0, 200);
 	ctx.lineTo(720, 200);
@@ -71,7 +71,7 @@ function paintCanvas() {
 	//draw center circle
 	ctx.beginPath();
 	ctx.arc(360,200,60,0,Math.PI*2,true);
-	ctx.stroke();
+	ctx.stroke(); */
 }
 
 // Function for creating paddles
